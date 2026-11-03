@@ -15,6 +15,25 @@
 #define RAISE 2
 #define ADJUST 3
 
+&i2c0 {
+    status = "okay";
+
+    oled: ssd1306@3c {
+        compatible = "solomon,ssd1306fb";
+        reg = <0x3c>;
+        
+        /* Меняем местами разрешение для портретного режима */
+        width = <64>;
+        height = <128>;
+        
+        /* Настройки поворота матрицы на 90 градусов */
+        segment-remap;
+        com-invdir;
+        com-sequential;
+    };
+};
+
+
 / {
     // Activate ADJUST layer by pressing raise and lower
 
