@@ -5,7 +5,7 @@ manifest:
     - name: cormoran
       url-base: https://github.com/cormoran
     - name: filterpaper
-      url_base: https://github.com/filterpaper
+      url-base: https://github.com/filterpaper
   projects:
     - name: eyelash_sofle
       url: https://github.com/a741725193/zmk-sofle
