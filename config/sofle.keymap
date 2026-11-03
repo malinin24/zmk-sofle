@@ -16,6 +16,23 @@
 #define ADJUST 3
 
 / {
+
+    // Включение кастомного индикатора для первого диода (ID 0)
+    led_underglow_status {
+        compatible = "zmk,behavior-rgb-underglow-led";
+        #binding-cells = <0>;
+        led-id = <0>; // Первый светодиод в ленте Sofle
+        
+        // Цвета для разных профилей Bluetooth (0, 1, 2...)
+        ble-profile-colors = <0x0000FF 0x00FF00 0xFF0000 0xFF00FF>; // Синий, Зеленый, Красный
+        
+        // Цвет, когда идет поиск устройства (pairing/advertising)
+        ble-advertising-color = <0xFFFF00>; // Желтый
+        
+        // Цвет, когда клавиатура подключена по USB
+        usb-color = <0x00FFFF>; // Бирюзовый
+    };
+
     // Activate ADJUST layer by pressing raise and lower
 
     conditional_layers {
