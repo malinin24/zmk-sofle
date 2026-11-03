@@ -9,3 +9,54 @@ jobs:
   build:
     uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3.0
 
+# 2. Вторая джоба — скачивание, переименование и перезагрузка артефактов
+  rename_and_upload:
+    runs-on: ubuntu-latest
+    needs: build # Ждем, пока завершится сборка ZMK
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Скачиваем артефакт, который создал workflow ZMK (обычно он называется firmware)
+      - name: Download ZMK artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: firmware
+          path: ./firmware-input
+
+      # Генерируем переменные даты и короткого SHA
+      - name: Set date and sha variables
+        id: vars
+        run: |
+          echo "CURRENT_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+          echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
+
+      # Переименовываем файлы по шаблону внутри папки
+      - name: Rename firmware files
+        run: |
+          mkdir ./firmware-output
+          cd ./firmware-input
+          
+          # Цикл проходит по всем файлам расширения .uf2 и .bin
+          for file in *.{uf2,bin}; do
+            # Проверяем, существует ли файл, чтобы избежать ошибок пустого поиска
+            [ -e "$file" ] || continue
+            
+            # Извлекаем имя без расширения и само расширение
+            filename="${file%.*}"
+            ext="${file##*.}"
+            
+            # Новый шаблон: Имя_Файла-2026-11-03-a1b2c3d.uf2
+            new_name="${filename}-${{ env.CURRENT_DATE }}-${{ env.SHORT_SHA }}.${ext}"
+            
+            cp "$file" "../firmware-output/$new_name"
+            echo "Renamed $file to $new_name"
+          done
+
+      # Загружаем переименованные файлы как новый артефакт
+      - name: Upload custom-named firmware
+        uses: actions/upload-artifact@v4
+        with:
+          # Имя самого архива артефакта тоже будет содержать дату и SHA
+          name: zmk-firmware-${{ env.CURRENT_DATE }}-${{ env.SHORT_SHA }}
+          path: ./firmware-output/
