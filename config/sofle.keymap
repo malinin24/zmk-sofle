@@ -66,7 +66,7 @@
 
             bindings = <
 &kp GRAVE  &kp F1     &kp F2          &kp F3          &kp F4          &kp F5                    &kp F6         &kp F7          &kp F8    &kp F9           &kp F10           &kp F12
-&trans     &kp GRAVE  &trans          &trans          &trans          &trans                    &kp PG_UP      &kp END         &kp UP    &kp HOME         &kp MINUS         &kp EQUAL
+&trans     &kp GRAVE  &trans          &trans          &trans          &trans                    &kp PG_UP      &kp HOME        &kp UP    &kp END          &kp MINUS         &kp EQUAL
 &trans     &kp TILDE  &trans          &trans          &trans          &trans                    &kp PAGE_DOWN  &kp LEFT_ARROW  &kp DOWN  &kp RIGHT_ARROW  &kp LEFT_BRACKET  &kp RIGHT_BRACKET
 &trans     &trans     &trans          &kp LC(INSERT)  &kp LS(INSERT)  &trans  &trans    &trans  &trans         &trans          &trans    &kp F11          &trans            &trans
                       &studio_unlock  &trans          &trans          &trans  &trans    &trans  &trans         &trans          &trans    &kp INS
